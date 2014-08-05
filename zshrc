@@ -70,7 +70,8 @@ alias restore="git reset --soft HEAD^ && git reset * && git st"
 alias squish="git ci -a --amend -c HEAD"
 alias wo="workon aurelia && cd ~/aurelia"
 alias kdiff="git difftool -y -t Kaleidoscope"
-
-alias PG_STAGING="DB_URI='postgresql://benchling@localhost:5434/benchling'"
+alias as3l="aws s3 ls"
+alias as3c="aws s3 cp"
+alias faby="echo y | fab"
 
 source $HOME/.benchling-dotfiles/.zshrc.benchling
