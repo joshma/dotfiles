@@ -51,27 +51,25 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export PATH=$PATH:/usr/local/packer:/usr/local/go/bin
-export PATH=$PATH:/Users/joshma/AWS-ElasticBeanstalk-CLI-2.6.0/eb/macosx/python2.7
-export EDITOR=/usr/bin/vim
-
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
 alias ts="git add . && git ci -am 'temp save'"
 alias restore="git reset --soft HEAD^ && git reset * && git st"
 alias squish="git ci -a --amend -c HEAD"
 alias wo="workon aurelia && cd ~/aurelia"
 alias kdiff="git difftool -y -t Kaleidoscope"
+
 alias as3l="aws s3 ls"
 alias as3c="aws s3 cp"
 alias faby="echo y | fab"
+
+alias agc="ag --coffee"
+alias agp="ag --python"
+alias agi="ag -i"
+alias releases="git log origin/master^..origin/master --pretty=format:\"%h - %an, %s\""
 
 source $HOME/.benchling-dotfiles/.zshrc.benchling
