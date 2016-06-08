@@ -101,7 +101,7 @@ map <leader>v :tabedit ~/.vimrc<cr>
 nmap <Leader>s :source $MYVIMRC<cr>
 
 " Use the same symbols as TextMate for tabstops and EOLs
-set listchars=tab:▸\ ,eol:¬
+set listchars=tab:T\ ,eol:$
 
 
 " File edits
