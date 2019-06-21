@@ -2,17 +2,6 @@ set nocompatible
 filetype off
 filetype plugin on
 
-"set rtp+=~/.vim/bundle/vundle/
-"call vundle#rc()
-call pathogen#infect()
-
-"Bundle 'scrooloose/nerdtree'
-"Bundle 'tpope/vim-fugitive'
-"Bundle 'Lokaltog/vim-easymotion'
-"Bundle 'wincent/Command-T'
-"Bundle 'ervandew/supertab'
-"Bundle 'Lokaltog/vim-powerline'
-
 " Indentation
 set ts=4
 set sts=4
@@ -56,7 +45,6 @@ autocmd FileType python set sts=4
 autocmd FileType python set textwidth=0
 autocmd FileType python set syntax=python
 
-"set list
 set wrap
 set linebreak
 set backspace=2	" make backspace work like other apps
@@ -102,15 +90,6 @@ nmap <Leader>s :source $MYVIMRC<cr>
 
 " Use the same symbols as TextMate for tabstops and EOLs
 set listchars=tab:T\ ,eol:$
-
-
-" File edits
-cnoremap %% <C-R>=expand('%:h').'/'<cr>
-map <leader>ew :e %%
-map <leader>es :sp %%
-map <leader>ev :vsp %%
-map <leader>et :tabe %%
-map <leader><leader> :NERDTreeToggle<cr>
 
 " Text bubbling
 map <C-Up> ddkp<cr>
