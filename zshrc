@@ -50,6 +50,13 @@ setopt PRINT_EXIT_VALUE
 
 source $ZSH/oh-my-zsh.sh
 
+source /usr/local/etc/bash_completion.d/git-prompt.sh
+setopt PROMPT_SUBST
+GIT_PS1_SHOWDIRTYSTATE=true
+GIT_PS1_SHOWUNTRACKEDFILES=true
+PS1='%* %{%F{green}%}%n@%m%f %3c%{%F{blue}%}$(__git_ps1 " (%s)")%f'
+PS1="$PS1"$'\n'"[${AWS_VAULT}] \$ "
+
 # User configuration
 
 # Compilation flags
@@ -58,19 +65,55 @@ source $ZSH/oh-my-zsh.sh
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
-alias ts="git add . && git ci -am 'temp save'"
-alias restore="git reset --soft HEAD^ && git reset * && git st"
-alias squish="git ci -a --amend -c HEAD"
 alias wo="workon aurelia && cd ~/aurelia"
 alias kdiff="git difftool -y -t Kaleidoscope"
 
-alias as3l="aws s3 ls"
-alias as3c="aws s3 cp"
-alias faby="echo y | fab"
-
-alias agc="ag --coffee"
-alias agp="ag --python"
-alias agi="ag -i"
 alias releases="git log origin/master^..origin/master --pretty=format:\"%h - %an, %s\""
+function ao {
+  aws-okta exec prod-ops -- "${@:1}"
+}
+function ae {
+  aws-vault exec --assume-role-ttl=60m $1 -- "${@:2}"
+}
+function aeow {
+  ae ops-us-west-2 "${@}"
+}
+function aeox {
+  ae testext "${@}"
+}
+function tfsec {
+  TF_CLI_ARGS=-var-file=/Users/josh/aurelia/infra/terraform/.env_secrets.tfvars "${@}"
+}
 
+export AURELIA_ENABLE_DOCKER_FOR_MAC=true
 source $HOME/.benchling-dotfiles/.zshrc.benchling
+source $HOME/.envs/aurelia/bin/activate
+
+# The next line updates PATH for the Google Cloud SDK.
+# source '/usr/local/google-cloud-sdk/path.zsh.inc'
+# The next line enables shell command completion for gcloud.
+# source '/usr/local/google-cloud-sdk/completion.zsh.inc'
+
+function uuid {
+  python -c "import uuid; print str(uuid.uuid4())"
+}
+__git_files () { 
+  _wanted files expl 'local files' _files     
+}
+fpath=( /usr/local/Cellar/ripgrep/0.6.0/share/zsh/site-functions/ "${fpath[@]}" )
+function https() {
+    openssl s_client -connect $1:443 -servername $1 < /dev/null | \
+    openssl x509 -noout -text -certopt no_header,no_version,no_serial,no_signame,no_pubkey,no_sigdump
+}
+
+export GPG_TTY=$(tty)
+
+alias git=hub
+
+# heroku autocomplete setup
+HEROKU_AC_ZSH_SETUP_PATH=/Users/josh/Library/Caches/heroku/autocomplete/zsh_setup && test -f $HEROKU_AC_ZSH_SETUP_PATH && source $HEROKU_AC_ZSH_SETUP_PATH;
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+# aws autocomplete setup
+source $HOME/.envs/aurelia/bin/aws_zsh_completer.sh
+
