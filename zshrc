@@ -1,6 +1,9 @@
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/josh/.oh-my-zsh"
 
+# Path to your dotfiles installation.
+export DOTFILES=$HOME/dotfiles
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -58,7 +61,7 @@ ZSH_THEME="af-magic"
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
+ZSH_CUSTOM=$DOTFILES
 
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
@@ -71,7 +74,6 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export PATH=/usr/local/bin:$PATH
 export EDITOR=vim
 
 # For e.g. file watching
@@ -96,28 +98,9 @@ export NVM_DIR="$HOME/.nvm"
 
 # Kubernetes
 export KUBECONFIG=$HOME/.kube/config:$HOME/.kube/config-mgb
-export PATH="$PATH:/Users/josh/Code/istio-1.8.0/bin"
-alias kc=kubectl
-alias kcd="kubectl --cluster docker-desktop"
 
+# Go
 export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin
-
-alias ts="git ts"
-alias gr="git res"
-alias gca="git commit --amend"
-alias gd="git difftool"
-alias gitcleanup="git fetch -p && for branch in $(git branch -vv | grep ': gone]' | awk '{print $1}'); do git branch -D $branch; done"
-
-alias kcdev="kubectl config use-context kind-airplane"
-alias kcprod="kubectl config use-context gke_airplane-prod_us-central1-c_cluster-airplane"
-alias kpt="kc -n prod-tasks"
-alias kst="kc -n stage-tasks"
-alias apdevbuild="go run ./cmd/airplane/ --host api.airplane.so:5000"
-alias apdev="$GOPATH/bin/airplane --host api.airplane.so:5000"
-alias apstage="airplane --host api.airstage.app"
-alias dobash="docker run --rm -it --entrypoint bash"
-alias dosh="docker run --rm -it --entrypoint sh"
 
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
