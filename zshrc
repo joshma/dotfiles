@@ -100,7 +100,11 @@ export NVM_DIR="$HOME/.nvm"
 export KUBECONFIG=$HOME/.kube/config:$HOME/.kube/config-mgb
 
 # Go
-export GOPATH=$HOME/go
+if [[ $CODESPACES -eq "true" ]]; then
+  export GOPATH=/usr/local/go
+else
+  export GOPATH=$HOME/go
+fi
 
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

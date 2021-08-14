@@ -1,9 +1,13 @@
 #!/bin/sh
 
+DOTFILES=$HOME/dotfiles
+
 # Install oh-my-zsh
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-DOTFILES=$HOME/dotfiles
+# Install diff-so-fancy
+git clone https://github.com/so-fancy/diff-so-fancy /usr/local/bin/diffsofancy
+ln -s /usr/local/bin/diffsofancy/diff-so-fancy /usr/local/bin/diff-so-fancy
 
 # Copy configuration files
 cp -r . $DOTFILES
