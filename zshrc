@@ -1,20 +1,36 @@
 # Path to your oh-my-zsh installation.
-export ZSH=$HOME/.oh-my-zsh
+export ZSH="/Users/josh/.oh-my-zsh"
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="af-magic"
+
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
 # Uncomment the following line to disable bi-weekly auto-update checks.
-DISABLE_AUTO_UPDATE="true"
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to automatically update without prompting.
+# DISABLE_UPDATE_PROMPT="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS=true
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -35,85 +51,83 @@ DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Which plugins would you like to load?
+# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git virtualenv)
-setopt PRINT_EXIT_VALUE
+plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
-source /usr/local/etc/bash_completion.d/git-prompt.sh
-setopt PROMPT_SUBST
-GIT_PS1_SHOWDIRTYSTATE=true
-GIT_PS1_SHOWUNTRACKEDFILES=true
-PS1='%* %{%F{green}%}%n@%m%f %3c%{%F{blue}%}$(__git_ps1 " (%s)")%f'
-PS1="$PS1"$'\n'"[${AWS_VAULT}] \$ "
-
 # User configuration
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
+export PATH=/usr/local/bin:$PATH
+export EDITOR=vim
 
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
+# For e.g. file watching
+ulimit -n 10000
 
-alias wo="workon aurelia && cd ~/aurelia"
-alias kdiff="git difftool -y -t Kaleidoscope"
+# Prompt
+PS1='$FG[032]%~$(git_prompt_info)$(hg_prompt_info)
+${return_code} $FG[105]%(!.#.»)%{$reset_color%} '
+unset RPS1
 
-alias releases="git log origin/master^..origin/master --pretty=format:\"%h - %an, %s\""
-function ao {
-  aws-okta exec prod-ops -- "${@:1}"
-}
-function ae {
-  aws-vault exec --assume-role-ttl=60m $1 -- "${@:2}"
-}
-function aeow {
-  ae ops-us-west-2 "${@}"
-}
-function aeox {
-  ae testext "${@}"
-}
-function tfsec {
-  TF_CLI_ARGS=-var-file=/Users/josh/aurelia/infra/terraform/.env_secrets.tfvars "${@}"
+# Configure iterm2
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+function iterm2_print_user_vars() {
+  iterm2_set_user_var kubecontext $(kubectl config current-context)
+  iterm2_set_user_var kubens $(kubectl config view -o "jsonpath={.contexts[?(@.name==\"$(kubectl config current-context)\")].context.namespace}")
 }
 
-export AURELIA_ENABLE_DOCKER_FOR_MAC=true
-source $HOME/.benchling-dotfiles/.zshrc.benchling
-source $HOME/.envs/aurelia/bin/activate
+# NVM
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# The next line updates PATH for the Google Cloud SDK.
-# source '/usr/local/google-cloud-sdk/path.zsh.inc'
-# The next line enables shell command completion for gcloud.
-# source '/usr/local/google-cloud-sdk/completion.zsh.inc'
+# Kubernetes
+export KUBECONFIG=$HOME/.kube/config:$HOME/.kube/config-mgb
+export PATH="$PATH:/Users/josh/Code/istio-1.8.0/bin"
+alias kc=kubectl
+alias kcd="kubectl --cluster docker-desktop"
 
-function uuid {
-  python -c "import uuid; print str(uuid.uuid4())"
-}
-__git_files () { 
-  _wanted files expl 'local files' _files     
-}
-fpath=( /usr/local/Cellar/ripgrep/0.6.0/share/zsh/site-functions/ "${fpath[@]}" )
-function https() {
-    openssl s_client -connect $1:443 -servername $1 < /dev/null | \
-    openssl x509 -noout -text -certopt no_header,no_version,no_serial,no_signame,no_pubkey,no_sigdump
-}
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
 
-export GPG_TTY=$(tty)
+alias ts="git ts"
+alias gr="git res"
+alias gca="git commit --amend"
+alias gd="git difftool"
+alias gitcleanup="git fetch -p && for branch in $(git branch -vv | grep ': gone]' | awk '{print $1}'); do git branch -D $branch; done"
 
-alias git=hub
+alias kcdev="kubectl config use-context kind-airplane"
+alias kcprod="kubectl config use-context gke_airplane-prod_us-central1-c_cluster-airplane"
+alias kpt="kc -n prod-tasks"
+alias kst="kc -n stage-tasks"
+alias apdevbuild="go run ./cmd/airplane/ --host api.airplane.so:5000"
+alias apdev="$GOPATH/bin/airplane --host api.airplane.so:5000"
+alias apstage="airplane --host api.airstage.app"
+alias dobash="docker run --rm -it --entrypoint bash"
+alias dosh="docker run --rm -it --entrypoint sh"
 
-# heroku autocomplete setup
-HEROKU_AC_ZSH_SETUP_PATH=/Users/josh/Library/Caches/heroku/autocomplete/zsh_setup && test -f $HEROKU_AC_ZSH_SETUP_PATH && source $HEROKU_AC_ZSH_SETUP_PATH;
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+# FZF
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# aws autocomplete setup
-source $HOME/.envs/aurelia/bin/aws_zsh_completer.sh
+# Ruby
+export PATH="/usr/local/opt/ruby/bin:/usr/local/lib/ruby/gems/3.0.0/bin:$PATH"
+export LDFLAGS="-L/usr/local/opt/ruby/lib"
+export CPPFLAGS="-I/usr/local/opt/ruby/include"
+export PKG_CONFIG_PATH="/usr/local/opt/ruby/lib/pkgconfig"
 
+if [ -f $HOME/.zshrc.local ]; then
+  source $HOME/.zshrc.local
+fi
