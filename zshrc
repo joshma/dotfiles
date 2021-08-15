@@ -99,13 +99,6 @@ export NVM_DIR="$HOME/.nvm"
 # Kubernetes
 export KUBECONFIG=$HOME/.kube/config:$HOME/.kube/config-mgb
 
-# Go
-if [[ $CODESPACES -eq "true" ]]; then
-  export GOPATH=/go
-else
-  export GOPATH=$HOME/go
-fi
-
 # FZF
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
