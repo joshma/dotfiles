@@ -9,7 +9,8 @@ sudo ln -s /usr/local/bin/diffsofancy/diff-so-fancy /usr/local/bin/diff-so-fancy
 
 # Copy configuration files
 cp -r . $DOTFILES
-ln -sf $DOTFILES/zshrc ~/.zshrc
-ln -sf $DOTFILES/vim ~/.vim
-ln -sf $DOTFILES/vimrc ~/.vimrc
-ln -sf $DOTFILES/gitconfig ~/.gitconfig
+ln -sf $DOTFILES/zshrc $HOME/.zshrc
+ln -sf $DOTFILES/vim $HOME/.vim
+ln -sf $DOTFILES/vimrc $HOME/.vimrc
+ln -sf $DOTFILES/gitconfig $HOME/.gitconfig
+ln -sf $DOTFILES/tmux.conf $HOME/.tmux.conf
