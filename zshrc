@@ -101,7 +101,7 @@ export KUBECONFIG=$HOME/.kube/config:$HOME/.kube/config-mgb
 
 # Go
 if [[ $CODESPACES -eq "true" ]]; then
-  export GOPATH=/usr/local/go
+  export GOPATH=/go
 else
   export GOPATH=$HOME/go
 fi
