@@ -9,8 +9,12 @@ sudo ln -s /usr/local/bin/diffsofancy/diff-so-fancy /usr/local/bin/diff-so-fancy
 
 # Copy configuration files
 cp -r . $DOTFILES
-ln -sf $DOTFILES/zshrc $HOME/.zshrc
-ln -sf $DOTFILES/vim $HOME/.vim
-ln -sf $DOTFILES/vimrc $HOME/.vimrc
-ln -sf $DOTFILES/gitconfig $HOME/.gitconfig
-ln -sf $DOTFILES/tmux.conf $HOME/.tmux.conf
+
+# Create symlinks, backing up existing files
+for file in zshrc vim vimrc gitconfig tmux.conf; do
+  if [ -e "$HOME/.$file" ] && [ ! -L "$HOME/.$file" ]; then
+    mv "$HOME/.$file" "$HOME/.$file.bak"
+    echo "Backed up $HOME/.$file to $HOME/.$file.bak"
+  fi
+  ln -sf "$DOTFILES/$file" "$HOME/.$file"
+done

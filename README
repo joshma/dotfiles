@@ -1,1 +1,92 @@
-Very minimal vim, git, etc. configuration.
+This repository stores personal configuration files (dotfiles) for various command-line and development tools. It aims to provide a consistent and personalized environment across different systems.
+
+## Installation
+
+1.  **Clone the repository (if you haven't already):**
+    If you're viewing this README on GitHub or elsewhere, you'll first need to clone the repository.
+    ```bash
+    git clone <repository_url> ~/dotfiles 
+    # Replace <repository_url> with the actual URL
+    cd ~/dotfiles
+    ```
+    If you've already cloned it and are in the directory, proceed to the next step.
+
+2.  **Run the installation script:**
+    Make sure you are in the root directory of this cloned repository.
+    ```bash
+    ./install.sh
+    ```
+
+This script will:
+*   Install `diff-so-fancy` (a tool for prettier diffs).
+*   Back up any existing dotfiles if they exist (e.g., `~/.vimrc` would be backed up to `~/.vimrc.bak`).
+*   Create symbolic links from your home directory to the configuration files in this repository for the following tools:
+    *   Vim (`~/.vimrc`, `~/.vim/`)
+    *   Git (`~/.gitconfig`)
+    *   Zsh (`~/.zshrc`)
+    *   Tmux (`~/.tmux.conf`)
+
+Make sure to replace `https://your-repository-url/dotfiles.git` with the actual URL of this repository in the instructions.
+
+## Key Features & Configured Tools
+
+These configurations are designed to create a comfortable and efficient command-line experience. `diff-so-fancy` is integrated across tools for improved diff readability.
+
+**Vim (`~/.vimrc`, `~/.vim/`)**
+
+*   **Plugin Management:** Uses `pathogen.vim` for managing plugins.
+*   **Customizations:**
+    *   **Indentation:** Defaults to 4 spaces. Web files (HTML, CSS, JavaScript, etc.) use 2 spaces.
+    *   **Colorscheme:** "Mustang" colorscheme with 256-color support.
+    *   **Navigation:** Numerous keyboard shortcuts for easy navigation between tabs and windows.
+    *   **Toggles:** Convenient toggles for features like spell check, line numbers, and paste mode.
+    *   **Powerline-Friendly:** Settings are optimized for use with Powerline or similar status line plugins.
+    *   **Syntax Highlighting:** HTML syntax is configured as `htmljinja` for better template support.
+
+**Git (`~/.gitconfig`)**
+
+*   **Diffs & Logs:** Integrates `diff-so-fancy` for clearer `git diff` and `git log` outputs.
+*   **Aliases:**
+    *   `lg`: Detailed and graphed log.
+    *   `st`: Short status.
+    *   `co`: Checkout.
+    *   `ci`: Commit.
+    *   `br`: Branch.
+*   **Git LFS:** Pre-configured for Git Large File Storage.
+*   **Merge Strategy:** Sets `pull.ff = only` to ensure merges are fast-forward only, maintaining a linear history.
+*   **User Configuration:** **Important:** You will need to update your name and email in `~/.gitconfig` after installation.
+    ```
+    [user]
+        name = Your Name
+        email = your.email@example.com
+    ```
+*   **Optional (macOS):** Includes commented-out settings for using Kaleidoscope as a diff tool.
+
+**Zsh (`~/.zshrc`)**
+
+*   **Framework:** Powered by Oh My Zsh.
+*   **Theme:** Uses the "af-magic" theme.
+*   **Default Editor:** Sets `EDITOR` to Vim.
+*   **iTerm2 Integration:** Includes settings for enhanced iTerm2 integration (if available).
+*   **Tooling Ready:**
+    *   Prepared for NVM (Node Version Manager).
+    *   Prepared for fzf (fuzzy finder).
+*   **Plugins:** Utilizes the 'git' Oh My Zsh plugin for enhanced git operations.
+
+**Tmux (`~/.tmux.conf`)**
+
+*   **Default Shell:** Sets Zsh as the default shell for new tmux sessions.
+
+## Prerequisites
+
+Before running the `install.sh` script, ensure you have the following software installed:
+
+*   `git`: For cloning the repository and for the Git configuration itself. Also used by the script to clone `diff-so-fancy`.
+*   `zsh`: The Zsh shell is used and configured. You'll likely want to set it as your default shell.
+*   `vim`: Vim is the primary editor configured.
+*   `tmux`: Tmux is configured for terminal multiplexing.
+*   `sudo`: The `install.sh` script uses `sudo` to install `diff-so-fancy` to `/usr/local/bin`.
+
+## Contributing
+
+Suggestions and contributions are welcome! Feel free to open an issue to discuss a change or submit a pull request.

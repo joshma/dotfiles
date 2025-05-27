@@ -1,5 +1,6 @@
 set nocompatible
 filetype off
+execute pathogen#infect()
 filetype plugin on
 
 " Indentation
