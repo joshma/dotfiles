@@ -1,55 +1,116 @@
 [core]
     whitespace = trailing-space,space-before-tab
-	pager = diff-so-fancy | less --tabs=4 -FRX
+    pager = diff-so-fancy | less --tabs=4 -FRX
+    editor = vim
+    autocrlf = input
+
+[init]
+    defaultBranch = main
+
 [alias]
-    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+    # Logging
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    lol = log --graph --decorate --pretty=oneline --abbrev-commit
+    lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+    
+    # Status and basic commands
     st = status
-    cp = cherry-pick
     co = checkout
     ci = commit
     br = branch
+    cp = cherry-pick
+    
+    # Diff and show
+    df = diff
+    dc = diff --cached
+    dt = difftool
+    
+    # Add and commit
+    a = add
+    aa = add --all
+    cm = commit -m
+    ca = commit --amend
+    can = commit --amend --no-edit
+    
+    # Branches and remotes
+    branches = branch -a
+    remotes = remote -v
+    
+    # Stash
+    sl = stash list
+    sa = stash apply
+    ss = stash save
+
 [user]
     name = Joshua Ma
     email = me@joshma.com
+    signingkey = ""
+
 [color]
-	ui = true
-[merge]
-	tool = Kaleidoscope
-[difftool "Kaleidoscope"]
-    cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
-[mergetool "Kaleidoscope"]
-    cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
-    trustExitCode = true
-[difftool]
-	prompt = false
-[mergetool]
-	prompt = false
-[diff]
-	tool = Kaleidoscope
-# [pager]
-#     log = /usr/local/opt/git/share/git-core/contrib/diff-highlight/diff-highlight | less
-#     show = /usr/local/opt/git/share/git-core/contrib/diff-highlight/diff-highlight | less
-#     diff = /usr/local/opt/git/share/git-core/contrib/diff-highlight/diff-highlight | less
-# 	branch = false
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
-[pull]
-	ff = only
+    ui = true
+    branch = auto
+    diff = auto
+    status = auto
+
 [color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
+    oldNormal = red bold
+    oldHighlight = red bold 52
+    newNormal = green bold
+    newHighlight = green bold 22
+
 [color "diff"]
-	meta = 11
-	frag = magenta bold
-	func = 146 bold
-	commit = yellow bold
-	old = red bold
-	new = green bold
-	whitespace = red reverse
+    meta = 11
+    frag = magenta bold
+    func = 146 bold
+    commit = yellow bold
+    old = red bold
+    new = green bold
+    whitespace = red reverse
+
+[diff]
+    tool = vimdiff
+    colorMoved = default
+
+[difftool]
+    prompt = false
+
+[merge]
+    tool = vimdiff
+    conflictstyle = diff3
+
+[mergetool]
+    prompt = false
+    keepBackup = false
+
+[pull]
+    ff = only
+    rebase = false
+
+[push]
+    default = simple
+    followTags = true
+
+[fetch]
+    prune = true
+
+[rebase]
+    autoStash = true
+
 [interactive]
-	diffFilter = diff-so-fancy --patch
+    diffFilter = diff-so-fancy --patch
+
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+
+[credential]
+    helper = cache --timeout=3600
+
+# Platform-specific configurations
+[includeIf "gitdir:/Users/"]
+    path = ~/.gitconfig-macos
+
+[includeIf "gitdir:/home/"]
+    path = ~/.gitconfig-linux

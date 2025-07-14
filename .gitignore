@@ -1,1 +1,49 @@
-local.zsh
+# Dotfiles gitignore
+# ==================
+
+# Local customizations (not tracked)
+*.local
+*_local
+.zshrc.local
+.gitconfig-*
+
+# Backup files
+*.backup.*
+*.bak
+*.swp
+*.tmp
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Temporary files
+*~
+.#*
+
+# Log files
+*.log
+
+# Node modules (if any scripts use node)
+node_modules/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Compiled files
+*.o
+*.so
+*.dll
