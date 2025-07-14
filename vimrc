@@ -1,147 +1,153 @@
+" Modern Vim Configuration
+" ======================
+
+" Use Vim settings, rather than Vi settings
 set nocompatible
-filetype off
-filetype plugin on
 
-" Indentation
-set ts=4
-set sts=4
-set sw=4
-set expandtab
-
-set mouse=a
-
-autocmd FileType html set expandtab
-autocmd FileType html set sw=2
-autocmd FileType html set ts=2
-autocmd FileType html set sts=2
-autocmd FileType html set textwidth=0
-autocmd FileType html set syntax=htmljinja
-
-autocmd FileType htmldjango set expandtab
-autocmd FileType htmldjango set sw=2
-autocmd FileType htmldjango set ts=2
-autocmd FileType htmldjango set sts=2
-autocmd FileType htmldjango set textwidth=0
-autocmd FileType htmldjango set syntax=htmljinja
-
-autocmd FileType css set expandtab
-autocmd FileType css set sw=4
-autocmd FileType css set ts=4
-autocmd FileType css set sts=4
-autocmd FileType css set textwidth=0
-autocmd FileType css set syntax=css
-
-autocmd FileType javascript set expandtab
-autocmd FileType javascript set sw=4
-autocmd FileType javascript set ts=4
-autocmd FileType javascript set sts=4
-autocmd FileType javascript set textwidth=0
-autocmd FileType javascript set syntax=javascript
-
-autocmd FileType python set expandtab
-autocmd FileType python set sw=4
-autocmd FileType python set ts=4
-autocmd FileType python set sts=4
-autocmd FileType python set textwidth=0
-autocmd FileType python set syntax=python
-
-set wrap
-set linebreak
-set backspace=2	" make backspace work like other apps
-set ignorecase
-
+" Enable file type detection and plugins
+filetype plugin indent on
 syntax on
-set autoindent
-set background=dark
 
-"Keyboard mappings
-let mapleader=","
+" Basic Settings
+" ==============
+set mouse=a                    " Enable mouse support
+set backspace=indent,eol,start " Make backspace work as expected
+set history=1000               " Increase command history
+set wildmode=list:longest      " Better command completion
+set ignorecase                 " Case insensitive search
+set smartcase                  " Case sensitive when uppercase present
+set incsearch                  " Incremental search
+set hlsearch                   " Highlight search results
+set number                     " Show line numbers
+set ruler                      " Show cursor position
+set laststatus=2              " Always show status line
+set t_Co=256                  " Enable 256 colors
 
-" Tab navigation
-nmap tk :tabnext<CR>
-nmap tj :tabprevious<CR>
-nmap tl :tablast<CR>
-nmap th :tabfirst<CR>
-nmap <C-t> :tabnew<CR>
+" Indentation Settings
+" ===================
+set expandtab                  " Use spaces instead of tabs
+set tabstop=4                  " Tab width
+set shiftwidth=4               " Indentation width
+set softtabstop=4             " Soft tab width
+set autoindent                " Copy indent from current line
+set smartindent               " Smart autoindenting
+
+" Visual Settings
+" ==============
+set wrap                      " Wrap long lines
+set linebreak                 " Break at word boundaries
+set background=dark           " Dark background
+colorscheme desert            " Use a standard colorscheme
+
+" Show invisible characters
+set listchars=tab:▸\ ,eol:¬,trail:·,extends:❯,precedes:❮
+set showbreak=↪\ 
+
+" Cursor line highlighting
+set cursorline
+highlight CursorLine cterm=NONE ctermbg=darkblue ctermfg=NONE
+
+" Key Mappings
+" ============
+let mapleader = ","
 
 " Window navigation
-nmap <C-h> <C-w>h
-nmap <C-j> <C-w>j
-nmap <C-k> <C-w>k
-nmap <C-l> <C-w>l
-
-" Window sizing
-nmap <leader>= <C-w>+
-nmap <leader>- <C-w>-
-
-" Shortcut to rapidly toggle `set list`
-nmap <leader>l :set list!<CR>
-
-" Shortcut to toggle spell checking
-map <leader>s :set spell!<cr>
-
-" Shortcut to toggle line numbers
-map <leader>n :set number!<cr>
-
-" Shortcut to edit vimrc file
-map <leader>v :tabedit ~/.vimrc<cr>
-" Shortcut to source vimrc
-nmap <Leader>s :source $MYVIMRC<cr>
-
-" Use the same symbols as TextMate for tabstops and EOLs
-set listchars=tab:T\ ,eol:$
-
-" Text bubbling
-map <C-Up> ddkp<cr>
-map <C-Down> ddp<cr>
-
-" Colors
-set t_Co=256 
-
-" Colorscheme
-colorscheme Mustang
-
-
-" Show syntax highlighting groups for word under cursor
-nmap <C-S-P> :call <SID>SynStack()<CR>
-function! <SID>SynStack()
-	if !exists("*synstack")
-	  return
-	endif
-	echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc 
-
-" Functions
-function! TclTest()
-	r~/.vim/templates/tcltest
-endfunc
-
-map <silent> <leader>1 <Esc>:call TclTest()<cr>
-
-set history=1000
-set wildmode=list:longest
-
-" Highlight long lines
-" highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-" match OverLength /\%101v.\+/
-
-" Code folding
-set number
-
-" For powerline
-set laststatus=2
-set nowrap
-
-hi CursorLine   cterm=NONE ctermbg=darkblue ctermfg=white guibg=darkred guifg=white
-hi CursorColumn cterm=NONE ctermbg=darkblue ctermfg=white guibg=darkred guifg=white
-nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
-
-" Easy split navigatino
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-" Improve up/down movement on wrapped lines
+" Window resizing
+nnoremap <leader>= <C-w>+
+nnoremap <leader>- <C-w>-
+
+" Tab navigation
+nnoremap tk :tabnext<CR>
+nnoremap tj :tabprevious<CR>
+nnoremap tl :tablast<CR>
+nnoremap th :tabfirst<CR>
+nnoremap <C-t> :tabnew<CR>
+
+" Toggle settings
+nnoremap <leader>l :set list!<CR>
+nnoremap <leader>s :set spell!<CR>
+nnoremap <leader>n :set number!<CR>
+nnoremap <leader>c :set cursorline! cursorcolumn!<CR>
+
+" Quick edit/reload vimrc
+nnoremap <leader>v :tabedit $MYVIMRC<CR>
+nnoremap <leader>r :source $MYVIMRC<CR>
+
+" Clear search highlighting
+nnoremap <leader>/ :nohlsearch<CR>
+
+" Better movement on wrapped lines
 nnoremap j gj
 nnoremap k gk
+
+" Language-Specific Settings
+" =========================
+
+" Python
+autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
+
+" JavaScript/TypeScript
+autocmd FileType javascript,typescript setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
+
+" HTML/CSS
+autocmd FileType html,css setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
+
+" HTML with template syntax
+autocmd FileType html setlocal syntax=htmljinja
+autocmd FileType htmldjango setlocal syntax=htmljinja
+
+" JSON
+autocmd FileType json setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
+
+" YAML
+autocmd FileType yaml setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
+
+" Markdown
+autocmd FileType markdown setlocal wrap linebreak textwidth=0
+
+" Functions
+" =========
+
+" Show syntax highlighting groups for word under cursor
+nnoremap <C-S-P> :call <SID>SynStack()<CR>
+function! <SID>SynStack()
+    if !exists("*synstack")
+        return
+    endif
+    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunction
+
+" Strip trailing whitespace
+function! StripTrailingWhitespace()
+    let l:save = winsaveview()
+    keeppatterns %s/\s\+$//e
+    call winrestview(l:save)
+endfunction
+nnoremap <leader>w :call StripTrailingWhitespace()<CR>
+
+" Plugin Settings
+" ===============
+
+" Airline (if installed)
+if exists(':AirlineToggle')
+    let g:airline_powerline_fonts = 1
+    let g:airline#extensions#tabline#enabled = 1
+endif
+
+" Automatically install vim-plug if not present
+if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" Performance Settings
+" ===================
+set lazyredraw                " Don't redraw during macros
+set synmaxcol=200            " Limit syntax highlighting for long lines
+set updatetime=250           " Faster completion
