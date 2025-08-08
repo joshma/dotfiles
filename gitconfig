@@ -8,6 +8,8 @@
     co = checkout
     ci = commit
     br = branch
+    ts = "!git add -A && git commit -m ts"
+    res = "!git reset --soft HEAD~1 && git reset && git status"
 [user]
     name = Joshua Ma
     email = me@joshma.com
